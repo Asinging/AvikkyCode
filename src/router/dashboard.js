@@ -8,5 +8,8 @@ export default [
     path: "/dashboard/",
     name: "dashboard-ecommerce",
     component: () => import("@/views/dashboard/newPage.vue"),
+    meta: {
+      requiresAuth: true,
+    },
   },
 ];

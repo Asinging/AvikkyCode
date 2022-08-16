@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 import Dashboard from "./dashboard";
+import Store from "@/store/index";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,7 @@ const router = new VueRouter({
       component: () => import("@/views/home/newPage.vue"),
 
       meta: {
+        requiresAuth: true,
         pageTitle: "Home",
         breadcrumb: [
           {
@@ -59,8 +61,11 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    let x = JSON.parse(localStorage.getItem("User") || {});
+    let x = Store.getters["Auth/authenticationStatus"];
+    debugger;
     if (x) {
+      next();
+      return;
     } else {
       next("/login");
     }

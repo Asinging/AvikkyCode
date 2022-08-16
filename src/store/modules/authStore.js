@@ -6,10 +6,16 @@ export default {
   namespaced: true,
   state: {
     token: localStorage.getItem("token") || "",
+    isAuthenticated: false,
   },
-  mutations: {},
+  mutations: {
+    mIsAuthenticated(state, payload) {
+      state.isAuthenticated = payload;
+    },
+  },
   actions: {
     LOGIN({ commit }, payload) {
+      commit("mIsAuthenticated", true);
       setTimeout(() => {
         return new Promise((resolve) => {
           localStorage.setItem("user", JSON.stringify(payload));
@@ -34,5 +40,9 @@ export default {
         });
     },
   },
-  getters: {},
+  getters: {
+    authenticationStatus(state) {
+      return state.isAuthenticated;
+    },
+  },
 };
